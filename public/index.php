@@ -1,10 +1,9 @@
 <?php
+    require_once("../modules/news/NewsManager.php");
+    $newsManager = new NewsManager();
     $currentSource = 'General';
-    $newsArray = array(
-        0 => array("title" => "Noticia 1", "content" => "This is the mock content"),
-        1 => array("title" => "Noticia 2", "content" => "This is the mock content"),
-        2 => array("title" => "Noticia 3", "content" => "This is the mock content")
-    )
+    $newsArray = $newsManager->getAllFeeds();
+    $quantity = count($newsArray);
 ?>
 
 <html>
@@ -33,10 +32,10 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <form class="navbar-form navbar-right">
-                        <select>
-                            <option value="">Choose a source</option>
-                            <option value="">Option one</option>
-                            <option value="">Option two</option>
+                        <select id="sources" onchange="onChangeSources()">
+                            <option value="general">General</option>
+                            <option value="nytimes">New York Times</option>
+                            <option value="universal">The universal</option>
                         </select>
                         <div class="form-group">
                         <input type="text" class="form-control" placeholder="Type here...">
@@ -48,12 +47,12 @@
         </nav>
 
         <div class="container">
-            <div align="center"><h1><?print $currentSource?></h1></div>
+            <div align="center"><h1><?print $currentSource?>: <?print $quantity?></h1></div>
             <div class="row">
                 <?
-                    foreach($newsArray as $new) {
-                        $title = $new['title'];
-                        $content = $new['content'];
+                    foreach((array) $newsArray as $new) {
+                        $title = $new->getTitle();
+                        $content = $new->getContent();
                         print "
                         <div class='col-sm-6 col-md-4'>
                             <div class='thumbnail'>
@@ -70,5 +69,12 @@
                 ?>
             </div>
         </div>
+    
+        <script>
+            function onChangeSources() {
+                selected = document.getElementById("sources").value;
+                alert(selected);
+            }
+        </script>
     </body>
 </html>

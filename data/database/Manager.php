@@ -4,7 +4,7 @@ class Manager
 {
     private $DATABASE = array(
     "SERVER_NAME" => "localhost:8889",
-    "NAME" => "my_shop",
+    "NAME" => "newscraping",
     "USERNAME" => "root",
     "PASSWORD" => "root"
     );

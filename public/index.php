@@ -1,8 +1,16 @@
 <?php
     require_once("../modules/news/NewsManager.php");
     $newsManager = new NewsManager();
-    $currentSource = 'General';
-    $newsArray = $newsManager->getNewsBySource("nytimes");
+
+    $query = $_GET["source"];
+
+    if ($query == "") {
+        $newsArray = $newsManager->getAllNews();
+        $currentSource = 'General';
+    } else {
+        $newsArray = $newsManager->getNewsBySource($query);
+        $currentSource = $query;
+    }
     $quantity = count($newsArray);
 ?>
 
@@ -10,7 +18,10 @@
     <head>
         <title>Scrapping Web App</title>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="/js/app.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
         <link rel='stylesheet' type='text/css' href='/Users/adrianleyvasanchez/Documents/Development/VIACCE/newscraping/public/css/styles.css'>
     </head>
@@ -32,13 +43,15 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <form class="navbar-form navbar-right">
-                        <select id="sources" onchange="onChangeSources()">
-                            <option value="general">General</option>
+                        <select id="sources">
+                            <option value="null">Choose a source</option>
+                            <option value="">General</option>
                             <option value="nytimes">New York Times</option>
-                            <option value="universal">The universal</option>
+                            <option value="reforma">El reforma</option>
+                            <option value="debate">Debate</option>
                         </select>
                         <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Type here...">
+                        <input id="searchInput" type="text" class="form-control" placeholder="Type here...">
                         </div>
                         <button type="submit" class="btn btn-default">Search</button>
                     </form>
@@ -47,8 +60,8 @@
         </nav>
 
         <div class="container">
-            <div align="center"><h1><?print $currentSource?>: <?print $quantity?></h1></div>
-            <div class="row">
+            <div align="center"><h1 id="currentSource"><?print $currentSource?>: <?print $quantity?></h1></div>
+            <div id="newsContainer" class="row">
                 <?
                     foreach((array) $newsArray as $new) {
                         $title = $new->getTitle();
@@ -69,12 +82,17 @@
                 ?>
             </div>
         </div>
-    
+
         <script>
-            function onChangeSources() {
-                selected = document.getElementById("sources").value;
-                alert(selected);
-            }
+            $('#sources').change(function() {
+                var value = $('#sources').val();
+                window.location.href="index.php?source=" + value;
+            });
+
+            var mockArray = ["Hola", "Qué onda", "Wazaaa"];
+            $('#searchInput').autocomplete({
+                source: mockArray
+            });
         </script>
     </body>
 </html>

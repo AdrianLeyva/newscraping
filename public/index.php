@@ -2,7 +2,7 @@
     require_once("../modules/news/NewsManager.php");
     $newsManager = new NewsManager();
     $currentSource = 'General';
-    $newsArray = $newsManager->getAllFeeds();
+    $newsArray = $newsManager->getNewsBySource("nytimes");
     $quantity = count($newsArray);
 ?>
 
@@ -10,9 +10,9 @@
     <head>
         <title>Scrapping Web App</title>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script src="js/app.js"></script>
+        <script src="/js/app.js"></script>
         <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
-        <link rel='stylesheet' type='text/css' href='css/styles.css'>
+        <link rel='stylesheet' type='text/css' href='/Users/adrianleyvasanchez/Documents/Development/VIACCE/newscraping/public/css/styles.css'>
     </head>
     <body>
         <nav class="navbar navbar-default customNav">
@@ -54,7 +54,7 @@
                         $title = $new->getTitle();
                         $content = $new->getContent();
                         print "
-                        <div class='col-sm-6 col-md-4'>
+                        <div class='col-sm-6 col-md-4''>
                             <div class='thumbnail'>
                                 <img src='...' alt='...'>
                                 <div class='caption'>

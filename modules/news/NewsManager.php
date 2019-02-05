@@ -1,20 +1,21 @@
 <?php
-require_once("/Users/adrianleyvasanchez/Documents/Development/VIACCE/newscraping/vendor/autoload.php");
-require_once("/Users/adrianleyvasanchez/Documents/Development/VIACCE/newscraping/data/database/Manager.php");
-require_once("/Users/adrianleyvasanchez/Documents/Development/VIACCE/newscraping/data/models/NewObject.php");
+require_once("../vendor/autoload.php");
+require_once("../data/database/Manager.php");
+require_once("../data/models/NewObject.php");
 
 class NewsManager {
 
  private $sources = array(
   "nytimes" => array("id" => "nytimes", "name" => "New York Times", "url" => "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"),
-  "universal" => array("id" => "universal", "name" => "The universal", "url" => "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml")
+  "reforma" => array("id" => "reforma", "name" => "El reforma", "url" => "https://www.reforma.com/rss/portada.xml"),
+  "debate" => array("id" => "debate", "name" => "Debate", "url" => "https://www.debate.com.mx/rss/feed.xml")
  );
 
  private $feeds = array();
- 
 
  function __construct(){
   $this->fetchAllNews();
+  $this->buildNews();
  }
 
  private function fetchAllNews() {
@@ -39,7 +40,8 @@ class NewsManager {
   }
  }
 
- public function getAllFeeds() {
+
+ private function buildNews() {
   $databaseManager = new Manager();
   $QUERY = "SELECT * FROM News";
   $result = $databaseManager->select($QUERY);
@@ -53,14 +55,17 @@ class NewsManager {
      $row["imageUrl"]
     ));
    }
-   return $this->feeds;
   }
  }
 
- public function getFeedBySource($source) {
+ public function getAllNews() {
+  return $this->feeds;
+ }
+
+ public function getNewsBySource($source) {
   $feedsBySource = array();
   foreach($this->feeds as $feed) {
-   if($feed->getId() == $source) {
+   if($feed->getId() === $source) {
     array_push($feedsBySource, $feed);
    }
   }

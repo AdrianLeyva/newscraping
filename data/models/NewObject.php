@@ -2,6 +2,8 @@
 
 class NewObject {
 
+ private $no = "";
+
  private $id = "";
 
  private $title = "";
@@ -10,11 +12,16 @@ class NewObject {
 
  private $imageUrl = "";
 
- function __construct($id, $title, $content, $imageUrl){
+ function __construct($no, $id, $title, $content, $imageUrl){
+  $this->no = $no;
   $this->id = $id;
   $this->title = $title;
   $this->content = $content;
   $this->imageUrl = $imageUrl;
+ }
+
+ public function getNo() {
+  return $this->no;
  }
 
  public function getId() {

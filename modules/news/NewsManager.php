@@ -30,16 +30,16 @@ class NewsManager {
 
    $quantity = $api->get_item_quantity();
    for($i = 0; $i < $quantity; $i++) {
+    $no = $this->countRows() + 1;
     $id = $source["id"];
     $title = $api->get_item($i)->get_title();
     $content = $api->get_item($i)->get_description();
     $imageUrl = "";
-    $QUERY = "INSERT INTO News (id, title, content, imageUrl) VALUES ('$id', '$title', '$content', '$imageUrl')";
+    $QUERY = "INSERT INTO News (no, id, title, content, imageUrl) VALUES ('$no', '$id', '$title', '$content', '$imageUrl')";
     $databaseManager->insert($QUERY);
    }
   }
  }
-
 
  private function buildNews() {
   $databaseManager = new Manager();
@@ -49,6 +49,7 @@ class NewsManager {
   if($result->num_rows > 0) {
    while($row = $result->fetch_assoc()) {
     array_push($this->feeds, new NewObject(
+     $row["no"],
      $row["id"],
      $row["title"],
      $row["content"],
@@ -56,6 +57,13 @@ class NewsManager {
     ));
    }
   }
+ }
+
+ private function countRows() {
+  $databaseManager = new Manager();
+  $QUERY = "SELECT * FROM News";
+  $result = $databaseManager->select($QUERY);
+  return $result->num_rows;
  }
 
  public function getAllNews() {
@@ -70,6 +78,40 @@ class NewsManager {
    }
   }
   return $feedsBySource;
+ }
+
+ public function getNewByTitle($title) {
+  $databaseManager = new Manager();
+  $QUERY = "SELECT * FROM News WHERE title = '$title'";
+  $result = $databaseManager->select($QUERY);
+
+  if($result->num_rows > 0) {
+   $row = $result->fetch_assoc();
+   return new NewObject(
+    $row["no"],
+    $row["id"],
+    $row["title"],
+    $row["content"],
+    $row["imageUrl"]
+   );
+  }
+ }
+
+ public function getNewByNo($no) {
+  $databaseManager = new Manager();
+  $QUERY = "SELECT * FROM News WHERE no = '$no'";
+  $result = $databaseManager->select($QUERY);
+
+  if($result->num_rows > 0) {
+   $row = $result->fetch_assoc();
+   return new NewObject(
+    $row["no"],
+    $row["id"],
+    $row["title"],
+    $row["content"],
+    $row["imageUrl"]
+   );
+  }
  }
 
 }

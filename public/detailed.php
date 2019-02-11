@@ -2,8 +2,11 @@
     require_once("../modules/news/NewsManager.php");
     $newsManager = new NewsManager();
 
-    $no = $_GET["no"];
-    $new = $newsManager->getNewByNo($no);
+    if (isset($_GET["no"]) && !isset($_GET["title"])) {
+        $new = $newsManager->getNewByNo($_GET["no"]);
+    } else if (!isset($_GET["no"]) && isset($_GET["title"])) {
+        $new = $newsManager->getNewByTitle($_GET["title"]);
+    }
 ?>
 
 <html>

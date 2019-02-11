@@ -50,7 +50,7 @@
                         <div class="form-group">
                         <input id="searchInput" type="text" class="form-control" placeholder="Type here...">
                         </div>
-                        <button type="submit" class="btn btn-default">Search</button>
+                        <button type="submit" id="searchButton" class="btn btn-default">Search</button>
                     </form>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -100,6 +100,11 @@
             $('#sources').change(function() {
                 var value = $('#sources').val();
                 window.location.href="index.php?source=" + value;
+            });
+
+            $('#searchButton').click(function() {
+                var value = $('#searchInput').val();
+                window.open("detailed.php?title=" + value);
             });
         </script>
     </body>

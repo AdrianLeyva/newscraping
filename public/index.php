@@ -20,7 +20,6 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="/js/app.js"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
         <link rel='stylesheet' type='text/css' href='/Users/adrianleyvasanchez/Documents/Development/VIACCE/newscraping/public/css/styles.css'>
@@ -64,6 +63,7 @@
             <div id="newsContainer" class="row">
                 <?
                     foreach((array) $newsArray as $new) {
+                        $no = $new->getNo();
                         $title = $new->getTitle();
                         $content = $new->getContent();
                         print "
@@ -73,7 +73,7 @@
                                 <div class='caption'>
                                     <h3>$title</h3>
                                     <p>$content</p>
-                                    <p><a href='#' class='btn btn-primary' role='button'>Read more</a></p>
+                                    <p><a href='detailed.php?no=$no' class='btn btn-primary' target='_blank' role='button'>Read more</a></p>
                                 </div>
                             </div>
                         </div>
@@ -88,10 +88,10 @@
                 var value = $('#sources').val();
                 window.location.href="index.php?source=" + value;
             });
-
-            var mockArray = ["Hola", "Qué onda", "Wazaaa"];
+            
+            var titles = ["Hola", "Hey"];
             $('#searchInput').autocomplete({
-                source: mockArray
+                source: titles
             });
         </script>
     </body>

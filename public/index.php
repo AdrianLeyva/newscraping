@@ -1,9 +1,8 @@
 <?php
     require_once("../modules/news/NewsManager.php");
     $newsManager = new NewsManager();
-
+    
     $query = $_GET["source"];
-
     if ($query == "") {
         $newsArray = $newsManager->getAllNews();
         $currentSource = 'General';
@@ -84,14 +83,24 @@
         </div>
 
         <script>
+            var titles = [];
+            $(document).ready(function() {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        titles = JSON.parse(this.responseText);
+                        $('#searchInput').autocomplete({
+                            source: titles
+                        });
+                    }
+                };
+                xmlhttp.open("GET", "requests.php", true);
+                xmlhttp.send();
+            });
+
             $('#sources').change(function() {
                 var value = $('#sources').val();
                 window.location.href="index.php?source=" + value;
-            });
-            
-            var titles = ["Hola", "Hey"];
-            $('#searchInput').autocomplete({
-                source: titles
             });
         </script>
     </body>

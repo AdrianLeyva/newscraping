@@ -1,6 +1,16 @@
-body {
- background-color: #FF5C50!important;
-}
 .customNav {
  background-color: #FF5C50!important;
+ border-color: "transparent"!important;
+ padding-top: 8px;
+ padding-bottom: 8px;
+}
+.customNavBrand {
+ color: white!important;
+ font-weight: bold!important;
+}
+.customNavBrand:hover {
+ font-size: 20px;
+}
+.customThumb {
+ min-height: 300px!important;
 }

@@ -60,6 +60,11 @@
         <div class="container">
             <div align="center"><h1 id="currentSource"><?print $currentSource?>: <?print $quantity?></h1></div>
             <div align="center"><a id="downloadExcel" class="btn btn-danger" href="excel-generator.php?source=<?print $currentSource?>" target="_blank">Download excel</a></div><br>
+            <div align="left">
+                <h4>Filter by date:</h4>
+                <input id="filterInput" type="date" name="filter">
+                <button type="submit" id="filterButton" class="btn btn-default">Filter</button>
+            </div><br>
             <div id="newsContainer" class="row">
                 <?
                     foreach((array) $newsArray as $new) {

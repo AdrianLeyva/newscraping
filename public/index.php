@@ -1,11 +1,11 @@
 <?php
     require_once("../modules/news/NewsManager.php");
     $newsManager = new NewsManager();
-    
+
     $query = $_GET["source"];
     if ($query == "") {
         $newsArray = $newsManager->getAllNews();
-        $currentSource = 'General';
+        $currentSource = 'general';
     } else {
         $newsArray = $newsManager->getNewsBySource($query);
         $currentSource = $query;
@@ -59,18 +59,23 @@
 
         <div class="container">
             <div align="center"><h1 id="currentSource"><?print $currentSource?>: <?print $quantity?></h1></div>
+            <div align="center"><a id="downloadExcel" class="btn btn-danger" href="excel-generator.php?source=<?print $currentSource?>" target="_blank">Download excel</a></div><br>
             <div id="newsContainer" class="row">
                 <?
                     foreach((array) $newsArray as $new) {
                         $no = $new->getNo();
                         $title = $new->getTitle();
                         $content = $new->getContent();
+                        $author = $new->getAuthor();
+                        $date = $new->getDate();
                         print "
                         <div class='col-sm-6 col-md-4''>
                             <div class='thumbnail customThumb'>
                                 <div  align='center' class='caption'>
                                     <h3>$title</h3>
                                     <p>$content</p>
+                                    <p><b>Author:</b><br>$author</p>
+                                    <p><b>Date:</b><br>$date</p>
                                     <p><a href='detailed.php?no=$no' class='btn btn-info' target='_blank' role='button'>Read more</a></p>
                                 </div>
                             </div>

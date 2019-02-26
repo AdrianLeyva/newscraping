@@ -12,12 +12,19 @@ class NewObject {
 
  private $imageUrl = "";
 
- function __construct($no, $id, $title, $content, $imageUrl){
+ private $author = "";
+
+ private $date = "";
+
+
+ function __construct($no, $id, $title, $content, $imageUrl, $author, $date){
   $this->no = $no;
   $this->id = $id;
   $this->title = $title;
   $this->content = $content;
   $this->imageUrl = $imageUrl;
+  $this->author = $author;
+  $this->date = $date;
  }
 
  public function getNo() {
@@ -38,6 +45,14 @@ class NewObject {
 
  public function getImageUrl() {
   return $this->imageUrl;
+ }
+
+ public function getAuthor() {
+  return $this->author;
+ }
+
+ public function getDate() {
+  return $this->date;
  }
 
 }

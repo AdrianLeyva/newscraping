@@ -35,7 +35,9 @@ class NewsManager {
     $title = $api->get_item($i)->get_title();
     $content = $api->get_item($i)->get_description();
     $imageUrl = "";
-    $QUERY = "INSERT INTO News (no, id, title, content, imageUrl) VALUES ('$no', '$id', '$title', '$content', '$imageUrl')";
+    $author = $api->get_item($i)->get_author()->get_name();
+    $date = $api->get_item($i)->get_date();
+    $QUERY = "INSERT INTO News (no, id, title, content, imageUrl, author, date) VALUES ('$no', '$id', '$title', '$content', '$imageUrl', '$author', '$date')";
     $databaseManager->insert($QUERY);
    }
   }
@@ -53,7 +55,9 @@ class NewsManager {
      $row["id"],
      $row["title"],
      $row["content"],
-     $row["imageUrl"]
+     $row["imageUrl"],
+     $row["author"],
+     $row["date"]
     ));
    }
   }
@@ -71,13 +75,26 @@ class NewsManager {
  }
 
  public function getNewsBySource($source) {
-  $feedsBySource = array();
-  foreach($this->feeds as $feed) {
-   if($feed->getId() === $source) {
-    array_push($feedsBySource, $feed);
-   }
+  $databaseManager = new Manager();
+  $QUERY = "SELECT * FROM News WHERE id = '$source'";
+  $result = $databaseManager->select($QUERY);
+  $newsArray = array();
+
+  if($result->num_rows > 0) {
+   while($row = $result->fetch_assoc()) {
+     array_push($newsArray, new NewObject(
+     $row["no"],
+     $row["id"],
+     $row["title"],
+     $row["content"],
+     $row["imageUrl"],
+     $row["author"],
+     $row["date"]
+    ));
   }
-  return $feedsBySource;
+
+   return $newsArray;
+  }
  }
 
  public function getNewByTitle($title) {
@@ -92,7 +109,9 @@ class NewsManager {
     $row["id"],
     $row["title"],
     $row["content"],
-    $row["imageUrl"]
+    $row["imageUrl"],
+    $row["author"],
+    $row["date"]
    );
   }
  }
@@ -109,7 +128,9 @@ class NewsManager {
     $row["id"],
     $row["title"],
     $row["content"],
-    $row["imageUrl"]
+    $row["imageUrl"],
+    $row["author"],
+    $row["date"]
    );
   }
  }

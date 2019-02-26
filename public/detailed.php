@@ -25,8 +25,10 @@
         <div class="jumbotron">
             <h1><? print $new->getTitle() ?></h1>
             <p><? print $new->getContent() ?></p>
+            <p><b>Date: </b> <? print $new->getDate() ?> </p>
             <br><br>
-            <p><b>Source: </b> <? print $new->getId() ?> </p>
+            <p><b>Source: </b> <? print $new->getId() ?> </p><br>
+            <p><b>Author: </b> <? print $new->getAuthor() ?> </p>
         </div>
      </body>
 </html>

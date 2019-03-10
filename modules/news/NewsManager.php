@@ -47,20 +47,7 @@ class NewsManager {
   $databaseManager = new Manager();
   $QUERY = "SELECT * FROM News";
   $result = $databaseManager->select($QUERY);
-
-  if($result->num_rows > 0) {
-   while($row = $result->fetch_assoc()) {
-    array_push($this->feeds, new NewObject(
-     $row["no"],
-     $row["id"],
-     $row["title"],
-     $row["content"],
-     $row["imageUrl"],
-     $row["author"],
-     $row["date"]
-    ));
-   }
-  }
+  return $this->getFeedsByQuery($this->feeds, $result);
  }
 
  private function countRows() {
@@ -79,10 +66,27 @@ class NewsManager {
   $QUERY = "SELECT * FROM News WHERE id = '$source'";
   $result = $databaseManager->select($QUERY);
   $newsArray = array();
+  return $this->getFeedsByQuery($newsArray, $result);
+ }
 
+ public function getNewByTitle($title) {
+  $databaseManager = new Manager();
+  $QUERY = "SELECT * FROM News WHERE title = '$title'";
+  $result = $databaseManager->select($QUERY);
+  return $this->getFeedByQuery($result);
+ }
+
+ public function getNewByNo($no) {
+  $databaseManager = new Manager();
+  $QUERY = "SELECT * FROM News WHERE no = '$no'";
+  $result = $databaseManager->select($QUERY);
+  return $this->getFeedByQuery($result);
+ }
+
+ private function getFeedByQuery($result) {
   if($result->num_rows > 0) {
-   while($row = $result->fetch_assoc()) {
-     array_push($newsArray, new NewObject(
+    $row = $result->fetch_assoc();
+    return new NewObject(
      $row["no"],
      $row["id"],
      $row["title"],
@@ -90,49 +94,25 @@ class NewsManager {
      $row["imageUrl"],
      $row["author"],
      $row["date"]
-    ));
-  }
-
-   return $newsArray;
-  }
+    );
+   }
  }
 
- public function getNewByTitle($title) {
-  $databaseManager = new Manager();
-  $QUERY = "SELECT * FROM News WHERE title = '$title'";
-  $result = $databaseManager->select($QUERY);
-
+ private function getFeedsByQuery($array, $result) {
   if($result->num_rows > 0) {
-   $row = $result->fetch_assoc();
-   return new NewObject(
-    $row["no"],
-    $row["id"],
-    $row["title"],
-    $row["content"],
-    $row["imageUrl"],
-    $row["author"],
-    $row["date"]
-   );
-  }
- }
-
- public function getNewByNo($no) {
-  $databaseManager = new Manager();
-  $QUERY = "SELECT * FROM News WHERE no = '$no'";
-  $result = $databaseManager->select($QUERY);
-
-  if($result->num_rows > 0) {
-   $row = $result->fetch_assoc();
-   return new NewObject(
-    $row["no"],
-    $row["id"],
-    $row["title"],
-    $row["content"],
-    $row["imageUrl"],
-    $row["author"],
-    $row["date"]
-   );
-  }
+    while($row = $result->fetch_assoc()) {
+      array_push($array, new NewObject(
+      $row["no"],
+      $row["id"],
+      $row["title"],
+      $row["content"],
+      $row["imageUrl"],
+      $row["author"],
+      $row["date"]
+     ));
+   }
+    return $array;
+   }
  }
 
 }

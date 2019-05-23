@@ -1,5 +1,5 @@
 <?php
-    require_once("../modules/news/NewsManager.php");
+    require_once("../public/modules/news/NewsManager.php");
     $newsManager = new NewsManager();
 
     $query = $_GET["source"];

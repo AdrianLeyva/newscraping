@@ -47,7 +47,7 @@ class NewsManager {
   $databaseManager = new Manager();
   $QUERY = "SELECT * FROM News";
   $result = $databaseManager->select($QUERY);
-  return $this->getFeedsByQuery($this->feeds, $result);
+  $this->feeds = $this->getFeedsByQuery($this->feeds, $result);
  }
 
  private function countRows() {
